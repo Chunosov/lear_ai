@@ -1,7 +1,6 @@
 import argparse
 import subprocess
 import cv2
-
 import tflite_runtime.interpreter as tflite
 
 
@@ -239,7 +238,7 @@ def _main():
     args = parser.parse_args()
 
     if not args.input:
-        raise Exception('Input source is not specified (--input)')
+        raise Exception('Input source is not specified')
 
     if args.input.startswith('rtsp://'):
         if args.output:
