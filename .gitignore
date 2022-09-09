@@ -1,4 +1,7 @@
 .venv
 __pycache__
 tmp.jpg
-rtsp-simple-server*
+/tmp
+models/inception_v3/*labels.txt
+models/inception_v3/*frozen.pb
+models/mobilenet_v1/mobilenet_v1_*

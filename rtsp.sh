@@ -6,12 +6,13 @@ RTSP=rtsp://localhost:8554
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-
 if [ "$CMD" == "server" ]; then
     # Download and run rtsp-simple-server
     # https://github.com/aler9/rtsp-simple-server
 
     cd $SCRIPT_DIR
+    if [ ! -d tmp ]; then mkdir tmp; fi
+    cd tmp
 
     if [ ! -f rtsp-simple-server ]; then
         PKG=rtsp-simple-server_v0.20.0_linux_amd64.tar.gz
