@@ -1,0 +1,43 @@
+# Just an example of building some CUDA image
+#
+# $ docker build -t learn-ai-cuda10 -f Dockerfile.cuda10 .
+#
+# There is no big sense in using of this particular dockerfile,
+# the same image prepared by NVIDIA takes less space (at least)
+#
+# $ docker images | grep cuda
+# learn-ai-cuda10              latest                              33ff6e712f9e   5 minutes ago   1.58GB
+# nvidia/cuda                  10.0-cudnn7-runtime-ubuntu18.04     be731942cc09   3 months ago    1.35GB
+#
+
+FROM ubuntu:18.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y wget file iputils-ping gnupg apt-utils
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.1.243-1_amd64.deb
+RUN dpkg -i cuda-repo-ubuntu1804_10.1.243-1_amd64.deb
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+
+# It seems nvidia has unsigned their old repositoies, so go unsecure
+# E: The repository 'http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  InRelease' is not signed.
+# https://askubuntu.com/questions/732985/force-update-from-unsigned-repository
+RUN apt-get --allow-insecure-repositories update
+
+RUN wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+RUN apt install -y ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+RUN apt-get --allow-insecure-repositories update
+
+# This is very big
+#RUN apt-get install -y --no-install-recommends --allow-unauthenticated cuda-10-1
+
+# Only runtime libraries
+RUN apt-get install -y --no-install-recommends --allow-unauthenticated cuda-libraries-10-1
+
+RUN apt-get install -y --no-install-recommends --allow-unauthenticated libcudnn7=7.6.4.38-1+cuda10.1
+#RUN apt-get install -y --no-install-recommends --allow-unauthenticated libcudnn7-dev=7.6.4.38-1+cuda10.1
+
+# Install TensorRT. Requires that libcudnn7 is installed above.
+# RUN apt-get install -y --no-install-recommends --allow-unauthenticated libnvinfer6=6.0.1-1+cuda10.1
+# RUN apt-get install -y --no-install-recommends --allow-unauthenticated libnvinfer-dev=6.0.1-1+cuda10.1
+# RUN apt-get install -y --no-install-recommends --allow-unauthenticated libnvinfer-plugin6=6.0.1-1+cuda10.1
