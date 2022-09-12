@@ -32,6 +32,9 @@ Python 2.7 is still default for Ubuntu 22.04 but doesn't include venv:
 sudo apt install python-pip
 pip2 install virtualenv
 
+# or this worked for Ubuntu 20.04:
+sudo apt install virtualenv
+
 virtualenv -p $(which python2) .venv
 
 source .venv/bin/activate

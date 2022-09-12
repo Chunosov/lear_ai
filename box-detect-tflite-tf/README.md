@@ -4,7 +4,7 @@ It uses [TensorFlow Lite](https://www.tensorflow.org/lite) and its [Python bindi
 
 ## Run
 
-[Prepare environment](../README.md#prepare)
+[Prepare environment](../README.md#prepare-python-3-8)
 
 ### Process single image
 

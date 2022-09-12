@@ -2,11 +2,13 @@
 
 Based on standard TF [example](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/label_image/label_image.py).
 
-Download model and labels if they note already downloaded:
+Download model and labels if they are not already downloaded:
 
 ```bash
 ../models/inception_v3/get.sh
 ```
+
+[Prepare environment](../README.md#prepare-python-3-8)
 
 Run the example
 

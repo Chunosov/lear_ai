@@ -14,7 +14,7 @@ $ du -hs ./box-detect-tflite-tf/.venv
 
 ## Run
 
-[Prepare environment](../README.md#prepare)
+[Prepare environment](../README.md#prepare-python-3-8)
 
 ### Process single image
 
