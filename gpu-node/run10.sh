@@ -3,10 +3,10 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $SCRIPT_DIR
 
-IMG=learn-ai-cuda11
+IMG=learn-ai-cuda10
 
 if [ "$1" == "build" ]; then
-    docker build -t $IMG -f Dockerfile-cuda11 .
+    docker build -t $IMG -f Dockerfile-cuda10 .
     if [ $? -ne 0 ]; then exit 1; fi
 fi
 
@@ -26,5 +26,5 @@ docker run -it --rm --privileged \
     -v $LIB_NVJIT:$LIB_NVJIT \
     -v $NVSMI:$NVSMI \
     -v $SCRIPT_DIR/..:/learn_ai \
-    -w /learn_ai \
+    -w /learn_ai/classify-tf1 \
     $IMG

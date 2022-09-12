@@ -1,0 +1,22 @@
+FROM nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
+
+RUN apt update
+RUN apt install -y file python-pip
+
+# Many dependencies in tensorflow are listed as >= (e.g protobuf>=3.6.1)
+# So when you download them in 2022, they are incompatibe with Python 2.7 anymore
+# Install particular version manually to allow the TF package to find them locally
+RUN pip2 install protobuf==3.6.1
+
+RUN pip2 install tensorflow==1.14.0
+
+# TODO: check which of them can be removed without breaking the basic inference functionaity:
+# Successfully installed absl-py-0.15.0 astor-0.8.1 backports.weakref-1.0.post1 funcsigs-1.0.2
+# futures-3.3.0 gast-0.5.3 google-pasta-0.2.0 grpcio-1.41.1 h5py-2.10.0 keras-applications-1.0.8
+# keras-preprocessing-1.1.2 markdown-3.1.1 mock-3.0.5 numpy-1.16.6 tensorboard-1.14.0 tensorflow-1.14.0
+# tensorflow-estimator-1.14.0 termcolor-1.1.0 werkzeug-1.0.1 wrapt-1.14.1
+
+# Enable XLA (Accelerated Linear Algebra) https://www.tensorflow.org/xla
+ENV TF_XLA_FLAGS=--tf_xla_cpu_global_jit
+
+CMD bash

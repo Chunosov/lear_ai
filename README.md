@@ -23,3 +23,18 @@ source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
+
+## Prepare Python 2.7
+
+Python 2.7 is still default for Ubuntu 22.04 but doesn't include venv:
+
+```bash
+sudo apt install python-pip
+pip2 install virtualenv
+
+virtualenv -p $(which python2) .venv
+
+source .venv/bin/activate
+
+pip install -r requirements.txt
+```

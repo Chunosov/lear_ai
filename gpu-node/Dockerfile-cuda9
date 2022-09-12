@@ -1,0 +1,35 @@
+# TF 1.9 can't be installed on the moderm OS due to tons of errors ralated to GCC
+# So here is a try to build an environment for older Ubuntu, TF, and CUDA versions
+
+FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
+
+# It seems NVIDIA has unsigned their repositories for older systems, so go unsecure
+RUN apt --allow-insecure-repositories update
+RUN apt install -y file python-pip
+
+# Many dependencies in tensorflow are listed as >= (e.g absl-py>=0.1.6)
+# So when you download them in 2022, they are incompatibe with Python 2.7 anymore
+# Install particular version manually to allow the TF package to find them locally
+RUN pip2 install absl-py==0.1.6
+RUN pip2 install termcolor==1.1.0
+RUN pip2 install numpy==1.13.3
+RUN pip2 install grpcio==1.8.6
+RUN pip2 install markdown==2.6.8
+
+RUN python --version
+# Python 2.7.12
+
+# This is failed to install even for particular version, required by TF 1.9:
+#
+#File "/tmp/pip-build-eH3_5L/MarkupSafe/setup.py", line 26
+#        raise BuildFailed() from e
+#                               ^
+#    SyntaxError: invalid syntax
+#
+# The "raise from" syntax was introduced in Python 3
+# I give up :)
+RUN pip2 install MarkupSafe==2.1.1
+
+RUN pip2 install tensorflow==1.9.0
+
+CMD bash
