@@ -16,6 +16,12 @@ Run the example
 python main.py ../samples/docbrown.jpg
 ```
 
+Run the benchmark example
+
+```bash
+python main.py --loops=10 ../samples/imagenet
+```
+
 ## Run with GPU acceleration
 
 https://www.tensorflow.org/install/pip
@@ -32,7 +38,7 @@ sudo apt-get update
 sudo apt-get -y install cuda
 ```
 
-:exclamation: The package is for Ubuntu 20.04, can't install the package on Ubuntu 22.04, there is no package for 22 at the time of writing.
+:exclamation: The package is for Ubuntu 20.04, can't install it on Ubuntu 22.04, there is no package for 22 at the time of writing.
 
 Install [cuDNN SDK 8.1.0](https://developer.nvidia.com/cudnn). There is no direct download link, nvidia decided that you must be a registerd user to be able to download the package :disappointed:. Even though it's freely available as part of their docker image `docker pull nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu20.04`.
 
@@ -51,6 +57,7 @@ This approach uses a docker image already containig both CUDA Toolkit and cuDNN 
 # in the container
 cd classify-ft
 python3 main.py ../samples/docbrown.jpg
+python3 main.py --loops=10 ../samples/imagenet
 ```
 
 ## Clarification for some log messages

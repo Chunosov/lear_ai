@@ -7,8 +7,10 @@ print("--" * 20)
 with tf.compat.v1.Session() as sess:
     print("Devices:", sess.list_devices())
 
+results = []
+
 # Choose which device you want to test on: either 'cpu' or 'gpu'
-for device in ['/device:CPU:0', '/device:XLA_CPU:0', '/device:XLA_GPU:0']:
+for device in ['/device:CPU:0', '/device:XLA_CPU:0', '/device:GPU:0', '/device:XLA_GPU:0']:
     print("--" * 20)
 
     # Choose size of the matrix to be used.
@@ -28,4 +30,10 @@ for device in ['/device:CPU:0', '/device:XLA_CPU:0', '/device:XLA_GPU:0']:
             result = sess.run(sum_operation)
         elapsed = datetime.now() - start_time
 
-        print("Shape:", shape, "Device:", device, "Time: {:.2f}".format(elapsed.seconds + elapsed.microseconds/1e6))
+        r = "Shape: {}, Device: {}, Time: {:.2f}".format(shape, device, elapsed.seconds + elapsed.microseconds/1e6)
+        results.append(r)
+        print(r)
+
+print("--" * 20)
+for r in results:
+    print(r)

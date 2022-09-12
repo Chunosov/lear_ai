@@ -1,5 +1,7 @@
 # Image classification example
 
+An example for older TensorFlow 1.14.
+
 ## Prepare models
 
 Download model and labels if they are not already downloaded:
@@ -29,6 +31,12 @@ Run the example
 python main.py ../samples/docbrown.jpg
 ```
 
+Run the benchmark example
+
+```bash
+python main.py --loops=10 ../samples/imagenet
+```
+
 ## Run with GPU acceleration in docker
 
 This approach uses a docker image already containig both CUDA Toolkit and cuDNN libraries.
@@ -39,4 +47,5 @@ This approach uses a docker image already containig both CUDA Toolkit and cuDNN 
 # in the container
 cd classify-ft1
 python main.py ../samples/docbrown.jpg
+python main.py --loops=10 ../samples/imagenet
 ```
