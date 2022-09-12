@@ -15,15 +15,11 @@ LIBS=/usr/lib/x86_64-linux-gnu
 # This is the only needed to run the inference
 LIB_CUDA=$LIBS/libcuda.so.1
 
-# These are not required for TF to run but are useful
-# for checking if GPU is available in running container
-LIB_NVML=$LIBS/libnvidia-ml.so.1
-NVSMI=/usr/bin/nvidia-smi
-
-docker run -it --rm --privileged \
-    -v $LIB_CUDA:$LIB_CUDA \
-    -v $LIB_NVML:$LIB_NVML \
-    -v $NVSMI:$NVSMI \
-    -v $SCRIPT_DIR/..:/learn_ai \
-    -w /learn_ai/classify-tf1 \
+docker run -it --rm \
+    --device=/dev/nvidia0:/dev/nvidia0 \
+    --device=/dev/nvidiactl:/dev/nvidiactl \
+    --device=/dev/nvidia-uvm:/dev/nvidia-uvm \
+    --volume=$LIB_CUDA:$LIB_CUDA \
+    --volume=$SCRIPT_DIR/..:/learn_ai \
+    --workdir=/learn_ai/classify-tf1 \
     $IMG

@@ -49,3 +49,9 @@ cd classify-ft1
 python main.py ../samples/docbrown.jpg
 python main.py --loops=10 ../samples/imagenet
 ```
+
+## Compare GPU vs CPU
+
+(remove `--device` propagation from `../gpu-node/run10.sh` to switch TF to CPU-only mode)
+
+See in the [TF2 section](../classify-tf/README.md#compare-gpu-vs-cpu)

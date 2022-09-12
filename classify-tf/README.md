@@ -52,13 +52,31 @@ sudo dpkg -i libcudnn8_8.1.0.77-1+cuda11.2_amd64.deb
 This approach uses a docker image already containig both CUDA Toolkit and cuDNN libraries.
 
 ```bash
-../gpu-node/run.sh build
+../gpu-node/run11.sh build
 
 # in the container
 cd classify-ft
 python3 main.py ../samples/docbrown.jpg
 python3 main.py --loops=10 ../samples/imagenet
 ```
+
+## Compare GPU vs CPU
+
+mobilenet_v1_1.0_160
+
+| Device                               | TF 2.10 | TF 1.14 |
+|--------------------------------------|---------|---------|
+| GeForce MX150 (GP108M) 2Gb VRAM      | 145 FPS | 154 FPS |
+| Intel Core i7-8550U 1.80GHz 16Gb RAM | 115 FPS | 96 FPS  |
+
+inception_v3
+
+| Device                               | TF 2.10 | TF 1.14 |
+|--------------------------------------|---------|---------|
+| GeForce MX150 (GP108M) 2Gb VRAM      | 20 FPS  | 14 FPS  |
+| Intel Core i7-8550U 1.80GHz 16Gb RAM | 19 FPS  | 13 FPS  |
+
+There are "Allocator (GPU_0_bfc) ran out of memory" messages for this device. So it seems 2Gb VRAM is too small for TF to work properly.
 
 ## Clarification for some log messages
 
