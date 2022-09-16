@@ -1,0 +1,36 @@
+#!/bin/bash
+
+IMG=cuda-sample-device-query-drv
+EXE=deviceQueryDrv
+LIBS=/usr/lib/x86_64-linux-gnu
+
+if [ $1 == "build" ]; then
+	docker build -t $IMG .
+	exit
+fi
+
+if [ $1 == "run" ]; then
+	docker run --rm --privileged \
+		--volume=$LIBS/libcuda.so.1:$LIBS/libcuda.so.1 \
+		$IMG
+	exit
+fi
+
+if [ $1 == "shell" ]; then
+	docker run -it --rm --privileged \
+		--volume=$LIBS/libcuda.so.1:$LIBS/libcuda.so.1 \
+		$IMG /bin/bash
+	exit
+fi
+
+if [ $1 == "extract" ]; then
+	CONT_ID=$(docker create $IMG)
+	docker cp $CONT_ID:/usr/local/cuda/samples/1_Utilities/deviceQueryDrv/$EXE .
+	docker rm $CONT_ID
+	exit
+fi
+
+if [ $1 == "strace" ]; then
+	strace -o strace.log ./$EXE
+	exit
+fi

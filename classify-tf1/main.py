@@ -90,8 +90,8 @@ def _main():
     # Graph is a combination of model definition and trained weights
     graph = _load_graph()
 
-    input_operation = graph.get_operation_by_name('import/' + INPUT_LAYER)
-    output_operation = graph.get_operation_by_name('import/' + OUTPUT_LAYER)
+    input = graph.get_operation_by_name('import/' + INPUT_LAYER).outputs[0]
+    output = graph.get_operation_by_name('import/' + OUTPUT_LAYER).outputs[0]
 
     config = tf.compat.v1.ConfigProto()
     config.gpu_options.allow_growth = True
@@ -105,9 +105,7 @@ def _main():
         while True:
             start_time = time.time()
             for img in imgs:
-                results = sess.run(output_operation.outputs[0], {
-                    input_operation.outputs[0]: img['data']
-                })
+                results = sess.run(output, {input: img['data']})
 
                 # Print most relevant results if not in looped moode
                 if args.loops == 1:

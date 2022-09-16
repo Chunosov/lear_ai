@@ -1,0 +1,52 @@
+#!/bin/bash
+
+IMG=cuda-sample-vector-add
+LIBS=/usr/lib/x86_64-linux-gnu
+
+if [ $1 == "build" ]; then
+	docker build -t $IMG .
+	exit
+fi
+
+if [ $1 == "run" ]; then
+	docker run --rm \
+		--device=/dev/nvidia0:/dev/nvidia0 \
+		--device=/dev/nvidiactl:/dev/nvidiactl \
+		--device=/dev/nvidia-uvm:/dev/nvidia-uvm \
+		--volume=$LIBS/libcuda.so.1:$LIBS/libcuda.so.1 \
+		$IMG
+	exit
+fi
+
+if [ $1 == "runp" ]; then
+	docker run --privileged --rm \
+		--volume=$LIBS/libcuda.so.1:$LIBS/libcuda.so.1 \
+		$IMG
+	exit
+fi
+
+if [ $1 == "shell" ]; then
+	docker run -it --rm --privileged $IMG \
+		--volume=$LIBS/libcuda.so.1:$LIBS/libcuda.so.1 \
+		/bin/bash
+	exit
+fi
+
+if [ $1 == "extract" ]; then
+	CONT_ID=$(docker create $IMG)
+	docker cp $CONT_ID:/usr/local/cuda/samples/0_Simple/vectorAdd/vectorAdd .
+	docker rm $CONT_ID
+	exit
+fi
+
+if [ $1 == "run-loop" ]; then
+	i=0
+	while true
+	do
+		echo
+		echo "Run $i"
+		./vectorAdd
+		sleep 10s
+		i=$((i+1))
+	done
+fi
