@@ -75,11 +75,15 @@ func main() {
 		mi, r := d.GetMemoryInfo()
 		prop("GetMemoryInfo", r, mi)
 
-		mi2, r := d.GetMemoryInfo_v2()
-		prop("GetMemoryInfo_v2", r, mi2)
+		// Exists in nvidia driver 515
+		// Doesn't exists in driver 470
+		// mi2, r := d.GetMemoryInfo_v2()
+		// prop("GetMemoryInfo_v2", r, mi2)
 
-		gpuCores, r := d.GetNumGpuCores()
-		prop("GetNumGpuCores", r, gpuCores)
+		// Exists in nvidia driver 515
+		// Doesn't exists in driver 470
+		// gpuCores, r := d.GetNumGpuCores()
+		// prop("GetNumGpuCores", r, gpuCores)
 
 		sn, r := d.GetSerial()
 		prop("GetSerial", r, sn)
@@ -108,8 +112,10 @@ func main() {
 		br, r := d.GetBrand()
 		prop("GetBrand", r, br)
 
-		bt, r := d.GetBusType()
-		prop("GetBusType", r, bt)
+		// Exists in nvidia driver 515
+		// Doesn't exists in driver 470
+		// bt, r := d.GetBusType()
+		// prop("GetBusType", r, bt)
 
 		cc1, cc2, r := d.GetCudaComputeCapability()
 		prop("GetCudaComputeCapability", r, cc1, cc2)
