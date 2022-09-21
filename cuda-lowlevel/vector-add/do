@@ -33,8 +33,12 @@ if [ $1 == "shell" ]; then
 fi
 
 if [ $1 == "extract" ]; then
+	if [ -z "$2" ]; then
+		echo "Specify a file name to extract"
+		exit 1
+	fi
 	CONT_ID=$(docker create $IMG)
-	docker cp $CONT_ID:/usr/local/cuda/samples/0_Simple/vectorAdd/vectorAdd .
+	docker cp $CONT_ID:/usr/local/cuda/samples/0_Simple/vectorAdd/$2 .
 	docker rm $CONT_ID
 	exit
 fi
@@ -49,4 +53,8 @@ if [ $1 == "run-loop" ]; then
 		sleep 10s
 		i=$((i+1))
 	done
+	exit
 fi
+
+echo "Command not specified or unknown"
+exit 1

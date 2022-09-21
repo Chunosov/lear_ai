@@ -1,2 +1,3 @@
-deviceQuery
+deviceQuery*
 strace.log
+Makefile

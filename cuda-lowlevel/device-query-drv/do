@@ -24,8 +24,12 @@ if [ $1 == "shell" ]; then
 fi
 
 if [ $1 == "extract" ]; then
+	if [ -z "$2" ]; then
+		echo "Specify a file name to extract"
+		exit 1
+	fi
 	CONT_ID=$(docker create $IMG)
-	docker cp $CONT_ID:/usr/local/cuda/samples/1_Utilities/deviceQueryDrv/$EXE .
+	docker cp $CONT_ID:/usr/local/cuda/samples/1_Utilities/deviceQueryDrv/$2 .
 	docker rm $CONT_ID
 	exit
 fi
@@ -34,3 +38,6 @@ if [ $1 == "strace" ]; then
 	strace -o strace.log ./$EXE
 	exit
 fi
+
+echo "Command not specified or unknown"
+exit 1
